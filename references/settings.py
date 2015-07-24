@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -36,6 +36,17 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blogging',
+    'mptt',
+    'sekizai',
+    'reversion',
+    'django_select2',
+    'easy_thumbnails',
+    'filer',
+    'taggit',
+    'crispy_forms',
+    'ckeditor',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -45,6 +56,25 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.csrf',
+    'django.core.context_processors.tz',
+    'sekizai.context_processors.sekizai',
+    'django.core.context_processors.static',
+)
+
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_PATH, "templates"),
 )
 
 ROOT_URLCONF = 'references.urls'
@@ -80,3 +110,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = PROJECT_PATH+'/media'
+MEDIA_URL = '/media/'
+
+MPTT_ADMIN_LEVEL_INDENT = 20
+
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'teaser': {'size': (50, 50), 'crop': True},
+    },
+}
+CKEDITOR_UPLOAD_PATH = 'images/'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+        'justifyClasses': [ 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify' ],
+    },
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+    'taggit': 'taggit.south_migrations',
+    }
