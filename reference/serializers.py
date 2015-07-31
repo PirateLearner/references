@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 
 from django.contrib.contenttypes.models import ContentType
 
+from reference.models import Reference
+
 class UserSerializer(serializers.ModelSerializer):
     
     gravatar = serializers.SerializerMethodField()
@@ -60,3 +62,14 @@ class BlogContentSerializer(serializers.ModelSerializer):
             return None
         """
 
+class ReferenceSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Reference
+        fields = ('id', 'url', 'content', 'type', 'parent')
+        
+    def create(self, validated_data):
+        pass
+    
+    def update(self, instance, validated_data):
+        pass

@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'references.views.home', name='home'),
+    url(r'^reference/','reference.urls', name='referece'),
     url(r'^contact/$', 'voting_demo.views.contact', name='contact'),
     url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^blogging/', include('blogging.urls',namespace='blogging')),
