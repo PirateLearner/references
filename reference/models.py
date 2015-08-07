@@ -17,7 +17,7 @@ class Reference(models.Model):
     #Reference title
     content = models.CharField(max_length=500)
     #Reference type: It could be a many-to-many field later.
-    type = models.PositiveSmallIntegerField(choices=TYPES_OF_REFS, default=URL)
+    ref_type = models.PositiveSmallIntegerField(choices=TYPES_OF_REFS, default=URL)
     #Parent Article
     parent = models.ForeignKey(blogging.models.BlogContent, related_name="reference") 
     

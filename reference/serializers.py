@@ -14,6 +14,9 @@ from django.contrib.contenttypes.models import ContentType
 
 from reference.models import Reference
 
+'''
+The template copy-paste serializers
+'''
 class UserSerializer(serializers.ModelSerializer):
     
     gravatar = serializers.SerializerMethodField()
@@ -38,38 +41,20 @@ class SerializeReadOnlyField(ReadOnlyField):
         if isinstance(value, BlogContent):
             return value.get_absolute_url()
 
+'''
+New/Modified code
+'''
 class BlogContentSerializer(serializers.ModelSerializer):
-    #Tell BlogContent that it has a relation on Annotations    
-    annotation = serializers.SerializerMethodField()
-    #annotation = SerializeAnnotationsField()
+    references = serializers.PrimaryKeyRelatedField(many=True, 
+                                                    queryset=Reference.objects.all())
     
     class Meta:
         model = BlogContent
         fields =('id', 'title', 'create_date', 'data', 'url_path', 
                  'author_id', 'published_flag', 'section', 'content_type',
-                 'annotation',)
+                 'references',)
      
-    def get_annotation(self, obj):
-        content_object = ContentType.objects.get_for_model(obj)
-        print "In BlogContentSerializer"
-        print obj
-        """
-        annotations =  Annotation.objects.filter(content_type=content_object.id, object_id=obj.id)
-        if len(annotations) is not 0:
-            print AnnotationSerializer(annotations, many=True).data
-            return (AnnotationSerializer(annotations, many=True).data)
-        else:
-            return None
-        """
-
-class ReferenceSerializer(serializers.ModelSerializer):
-    
+class ReferenceSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Reference
         fields = ('id', 'url', 'content', 'type', 'parent')
-        
-    def create(self, validated_data):
-        pass
-    
-    def update(self, instance, validated_data):
-        pass
